@@ -17,10 +17,12 @@ public class UserDto {
     private Long id;
 
     @NotBlank(message = "First Name must be filled")
-    private String firstName;
+    private String firstname;
 
     @NotBlank(message = "Last Name must be filled")
-    private String lastName;
+    private String lastname;
+
+    private String fullname;
 
     @NotBlank(message = "Username should not be empty")
     private String username;
