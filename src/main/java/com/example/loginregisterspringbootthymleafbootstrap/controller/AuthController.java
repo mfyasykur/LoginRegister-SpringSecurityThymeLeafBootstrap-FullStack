@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.Set;
@@ -59,7 +60,7 @@ public class AuthController {
             result.rejectValue("email", "error.email", "There is already an account registered with that email.");
         }
 
-        if (userService.existsByUsername(userDto.getEmail())) {
+        if (userService.existsByUsername(userDto.getUsername())) {
             result.rejectValue("username", "error.username", "There is already an account registered with that username.");
         }
 
@@ -75,6 +76,8 @@ public class AuthController {
             userService.registerNewUser(userDto, Set.of(role)); // Set default role as ROLE_USER
         } catch (IllegalArgumentException e) {
             result.rejectValue("email", "error.email", e.getMessage());
+            result.rejectValue("username", "error.username", e.getMessage());
+
             return "register";
         }
 
@@ -96,5 +99,10 @@ public class AuthController {
         model.addAttribute("users", users);
 
         return "users";
+    }
+
+    @RequestMapping("/404")
+    public String notFound() {
+        return "error/404";
     }
 }
