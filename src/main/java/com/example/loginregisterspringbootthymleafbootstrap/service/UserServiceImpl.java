@@ -22,11 +22,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleService roleService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     @Override
@@ -56,7 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerNewUser(UserDto userDto, Set<Role> roles) throws IllegalArgumentException {
 
-        if (userRepository.existsByUsername(userDto.getEmail())) {
+        if (userRepository.existsByUsername(userDto.getUsername())) {
             throw new IllegalArgumentException("Username already exists");
         }
 
@@ -64,12 +66,17 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Email already exists");
         }
 
+        // Initialize roles if not found
+        Set<Role> existingRoles = roles.stream()
+                .map(role -> roleService.createRoleIfNotFound(role.getName()))
+                .collect(Collectors.toSet());
+
         User user = new User();
-        user.setName(userDto.getFirstName() + " " + userDto.getLastName());
+        user.setName(userDto.getFirstname() + " " + userDto.getLastname());
         user.setEmail(userDto.getEmail());
-        user.setUsername(userDto.getEmail());
+        user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRoles(roles);
+        user.setRoles(existingRoles);
         user.setEnabled(true);
 
         userRepository.save(user);
@@ -104,9 +111,8 @@ public class UserServiceImpl implements UserService {
     private UserDto mapToUserDto(User user) {
 
         UserDto userDto = new UserDto();
-        String[] str = user.getName().split(" ");
-        userDto.setFirstName(str[0]);
-        userDto.setLastName(str[1]);
+        userDto.setFullname(user.getName());
+        userDto.setUsername(user.getUsername());
         userDto.setEmail(user.getEmail());
 
         return userDto;
