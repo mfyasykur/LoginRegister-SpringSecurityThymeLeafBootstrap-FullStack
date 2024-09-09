@@ -1,6 +1,7 @@
 package com.example.loginregisterspringbootthymleafbootstrap.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,6 +23,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Value("${remember.me.key}")
+    private String rememberMeKey;
 
     private final UserDetailsService userDetailsService;
     private final AuthenticationFailureHandler authenticationFailureHandler;
@@ -80,7 +84,7 @@ public class SecurityConfig {
                 )
                 .rememberMe(
                         rememberMe -> rememberMe
-                        .key("hfiuweu74387^^$&Gy3r7*&##F89f8") // very secret & secure key
+                        .key(rememberMeKey) // very secret & secure key
                         .tokenValiditySeconds(86400)
                 )
                 .headers(
