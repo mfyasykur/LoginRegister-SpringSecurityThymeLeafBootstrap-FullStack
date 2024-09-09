@@ -18,7 +18,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" th:if="${#authorization.expression('!isAuthenticated()')}">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
                 </li>
@@ -49,28 +49,28 @@
                         <label class="form-label">First Name</label>
                         <input
                                 class="form-control"
-                                id="firstName"
-                                name="firstName"
+                                id="firstname"
+                                name="firstname"
                                 placeholder="Enter first name"
-                                th:field="*{firstName}"
+                                th:field="*{firstname}"
                                 type="text"
                         />
-                        <p th:errors = "*{firstName}" class="text-danger"
-                           th:if="${#fields.hasErrors('firstName')}"></p>
+                        <p th:errors = "*{firstname}" class="text-danger"
+                           th:if="${#fields.hasErrors('firstname')}"></p>
                     </div>
 
                     <div class="form-group mb-3">
                         <label class="form-label">Last Name</label>
                         <input
                                 class="form-control"
-                                id="lastName"
-                                name="lastName"
+                                id="lastname"
+                                name="lastname"
                                 placeholder="Enter last name"
-                                th:field="*{lastName}"
+                                th:field="*{lastname}"
                                 type="text"
                         />
-                        <p th:errors = "*{lastName}" class="text-danger"
-                           th:if="${#fields.hasErrors('lastName')}"></p>
+                        <p th:errors = "*{lastname}" class="text-danger"
+                           th:if="${#fields.hasErrors('lastname')}"></p>
                     </div>
 
                     <div class="form-group mb-3">
