@@ -38,6 +38,9 @@
             <div th:if="${param.logout}">
                 <div class="alert alert-success"> You have been logged out.</div>
             </div>
+            <div th:if="${param.inactive}">
+                <div class="alert alert-warning">Your account is no longer active. Please contact support.</div>
+            </div>
 
             <div class="card">
                 <div class="card-header">
@@ -51,8 +54,8 @@
                             class="form-horizontal"
                     >
                         <div class="form-group mb-3">
-                            <label class="control-label"> Email</label>
-                            <input
+                            <label class="control-label"> Username/Email</label>
+                            <label for="username"></label><input
                                     type="text"
                                     id="username"
                                     name="username"
@@ -63,13 +66,18 @@
 
                         <div class="form-group mb-3">
                             <label class="control-label"> Password</label>
-                            <input
+                            <label for="password"></label><input
                                     type="password"
                                     id="password"
                                     name="password"
                                     class="form-control"
                                     placeholder="Enter password"
                             />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <input type="checkbox" id="remember-me" name="remember-me">
+                            <label for="remember-me">Remember Me</label>
                         </div>
                         <div class="form-group mb-3">
                             <button type="submit" class="btn btn-primary" >Submit</button>
@@ -79,6 +87,7 @@
                         </div>
                     </form>
                 </div>
+<!--                <img th:src="@{/images/06.jpeg}" alt="image" width="450" height="675"/>-->
             </div>
         </div>
     </div>
